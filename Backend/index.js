@@ -3,6 +3,6 @@ const app = express();
 const { port } = require("./utils/config");
 const {info} = require("./utils/logger");
 
-app.listen(port => {
+app.listen(port, () => {
     info(`Server running on port ${port}`)
 })
