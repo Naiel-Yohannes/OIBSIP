@@ -1,5 +1,4 @@
-const express = require("express");
-const app = express();
+const app = require('./app')
 const { port } = require("./utils/config");
 const {info} = require("./utils/logger");
 
