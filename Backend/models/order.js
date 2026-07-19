@@ -48,5 +48,13 @@ const orderSchema = mongoose.Schema({
     
 })
 
+orderSchema.set('toJSON', {
+    transform: (doc, ret) => {
+        ret.id = ret._id.toString()
+        delete ret._id
+        delete ret.__v
+    }
+})
+
 const Order = mongoose.model('Order', orderSchema)
 module.exports = Order

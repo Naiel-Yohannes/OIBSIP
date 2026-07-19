@@ -31,6 +31,7 @@ userRouter.post('/', async (req, res) => {
         res.status(201).json(newUser)
     }catch(err){
         error(err)
+        next(err)
     }
 })
 

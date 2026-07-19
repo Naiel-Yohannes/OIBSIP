@@ -6,6 +6,8 @@ const cors = require('cors')
 const errorHandler = require('./middleware/errorhandler')
 const loginRouter = require('./controllers/loginRoute')
 const userRouter = require('./controllers/userRoute')
+const orderRouter = require('./controllers/orderRoute')
+const inventoryRouter = require('./controllers/inventoryRoute')
 
 const app = express()
 
@@ -20,6 +22,8 @@ app.use(cors())
 
 app.use('/api/user', userRouter)
 app.use('/api/login', loginRouter)
+app.use('/api/order', orderRouter)
+app.use('/api/inventory', inventoryRouter)
 
 app.use(errorHandler)
 

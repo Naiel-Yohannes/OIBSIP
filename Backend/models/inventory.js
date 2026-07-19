@@ -9,18 +9,28 @@ const INGREDIENTS = [
 ]
 
 const inventorySchema = mongoose.Schema({
-    stock: [{
-        item: {
-            type: String,
-            enum: INGREDIENTS,
-            required: true,
-            unique: true
-        },
-        quantity: {
-            type: Number,
-            required: true
+    item: {
+        type: String,
+        enum: INGREDIENTS,
+        unique: true,
+        required: true
+    },
+    quantity: {
+        type: Number,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
     }
-    }]
+})
+
+inventorySchema.set('toJSON', {
+    transform: (doc, ret) => {
+        ret.id = ret._id.toString()
+        delete ret._id
+        delete ret.__v
+    }
 })
 
 const Inventory = mongoose.model('Inventory', inventorySchema)
