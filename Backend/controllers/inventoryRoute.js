@@ -11,13 +11,12 @@ inventoryRouter.get('/', userExtractor, async (req, res, next) => {
         }
 
         const inventory = await Inventory.find({})
-        res.json(inventory)
 
         if(inventory.length === 0) {
             return res.status(404).json({error: 'There are no items in the inventory'})
         }
 
-        next()
+        return res.json(inventory)
     } catch(err) {
         error(err)
         next(err)
@@ -36,8 +35,8 @@ inventoryRouter.post('/', userExtractor, async (req, res, next) => {
             return res.status(400).json({error: 'Invalid item'})
         }
 
-        if(!item || !quantity || !price) {
-            return res.status(400).json({error: 'Item and quantity are required'})
+        if(item === undefined || quantity === undefined || price === undefined) {
+            return res.status(400).json({error: 'Item, quantity, and price are required'})
         }
 
         if(typeof quantity !== 'number' || quantity <= 0){
@@ -49,13 +48,9 @@ inventoryRouter.post('/', userExtractor, async (req, res, next) => {
         }
 
         const newInventoryItem = new Inventory({
-            stock: [
-                {
-                    item: item.toLowerCase(),
-                    quantity,
-                    price
-                }
-            ]
+            item: item.toLowerCase(),
+            quantity,
+            price
         })
 
         const savedItem = await newInventoryItem.save()
@@ -102,8 +97,7 @@ inventoryRouter.put('/:id', userExtractor, async (req, res, next) => {
             return res.status(404).json({error: 'Inventory item not found'})
         }
 
-        res.json(updatedItem)
-        next()
+        return res.json(updatedItem)
     } catch(err) {
         error(err)
         next(err)

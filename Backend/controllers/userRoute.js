@@ -4,11 +4,11 @@ const bcrypt = require('bcrypt')
 const validator = require('validator')
 const User = require('../models/user')
 
-userRouter.post('/', async (req, res) => {
+userRouter.post('/', async (req, res, next) => {
     try{
         const {name, username, password, address, email, role} = req.body
 
-        if(!name || !username || !password || !address || ! email || !role) {
+        if(!name || !username || !password || !address || !email || !role) {
             return res.status(400).json({error: 'Missing credentials'})
         }
 

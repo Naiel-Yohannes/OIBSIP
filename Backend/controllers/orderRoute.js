@@ -9,22 +9,22 @@ orderRouter.get('/', userExtractor, async (req, res, next) => {
         if(req.user.role === 'customer') {
             const orders = await Order.find({ordererId: req.user.id})
 
-            if(!orders) {
+            if(orders.length === 0) {
                 return res.status(404).json({error: 'No orders found'})
             }
-            res.json(orders)
+            return res.json(orders)
         }
 
         if(req.user.role === 'admin') {
             const orders = await Order.find({})
             
-            if(!orders) {
+            if(orders.length === 0) {
                 return res.status(404).json({error: 'No orders found'})
             }
-            res.json(orders)
+            return res.json(orders)
         }
 
-        next()
+        return res.status(403).json({error: 'Unauthorized role'})
     } catch (err) {
         error(err)
         next(err)
@@ -36,23 +36,25 @@ orderRouter.get('/:id', userExtractor, async (req, res, next) => {
         const id = req.params.id
         if(req.user.role === 'customer') {
             const order = await Order.findOne({ordererId: req.user.id, orderId: id})
-            res.json(order)
-    
+            
             if(!order) {
                 return res.status(404).json({error: 'Order not found'})
             }
+
+            return res.json(order)
         }
 
         if(req.user.role === 'admin') {
             const order = await Order.findOne({orderId: id})
-            res.json(order)
 
             if(!order) {
                 return res.status(404).json({error: 'Order not found'})
             }
+
+            return res.json(order)
         }
 
-        next()
+        return res.status(403).json({error: 'Unauthorized role'})
     } catch (err) {
         error(err)
         next(err)
@@ -149,8 +151,7 @@ orderRouter.put('/:id', userExtractor, async (req, res, next) => {
             return res.status(404).json({error: 'Order not found'})
         }
         
-        res.json(updatedOrder)
-        next()
+        return res.json(updatedOrder)
     } catch (err) {
         error(err)
         next(err)
