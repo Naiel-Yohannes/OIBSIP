@@ -103,3 +103,5 @@ inventoryRouter.put('/:id', userExtractor, async (req, res, next) => {
         next(err)
     }
 })
+
+module.exports = inventoryRouter
