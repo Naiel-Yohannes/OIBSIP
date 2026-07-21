@@ -6,7 +6,7 @@ const getOrders = async () => {
         const response = await api.get('/order')
         return response.data
     } catch (error) {
-        toast('Error fetching order data:', error)
+        toast.error('Error fetching order data: ' + (error.response?.data?.error || error.message))
         throw error
     }
 }
@@ -16,7 +16,7 @@ const getOrderById = async (id) => {
         const response = await api.get(`/order/${id}`)
         return response.data
     } catch (error) {
-        toast('Error fetching order data:', error)
+        toast.error('Error fetching order data: ' + (error.response?.data?.error || error.message))
         throw error
     }
 }
@@ -27,7 +27,7 @@ const createOrder = async (orderData) => {
         toast('Order created successfully')
         return response.data
     } catch (error) {
-        toast('Error creating order:', error)
+        toast.error('Error creating order: ' + (error.response?.data?.error || error.message))
         throw error
     }
 }
@@ -38,7 +38,7 @@ const updateOrder = async (id, orderData) => {
         toast('Order updated successfully')
         return response.data
     } catch (error) {
-        toast('Error updating order:', error)
+        toast.error('Error updating order: ' + (error.response?.data?.error || error.message))
         throw error
     }
 }

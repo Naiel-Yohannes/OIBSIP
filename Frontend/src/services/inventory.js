@@ -6,7 +6,7 @@ const getInventory = async () => {
         const response = await api.get('/inventory')
         return response.data
     } catch (error) {
-        toast('Error fetching inventory data:', error)
+        toast.error('Error fetching inventory data: ' + (error.response?.data?.error || error.message))
         throw error
     }
 }
@@ -17,7 +17,7 @@ const createItem = async (itemData) => {
         toast('Item created successfully')
         return response.data
     } catch (error) {
-        toast('Error creating item:', error)
+        toast.error('Error creating item: ' + (error.response?.data?.error || error.message))
         throw error
     }
 }
@@ -28,7 +28,7 @@ const updateItem = async (id, itemData) => {
         toast('Item updated successfully')
         return response.data
     } catch (error) {
-        toast('Error updating item:', error)
+        toast.error('Error updating item: ' + (error.response?.data?.error || error.message))
         throw error
     }
 }
