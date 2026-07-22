@@ -22,6 +22,18 @@ const orderSchema = mongoose.Schema({
         default: Date.now
     },
     pizza: {
+        pizzaId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Pizza'
+        },
+        name: {
+            type: String,
+            default: 'custom pizza'
+        },
+        isCustom: {
+            type: Boolean,
+            default: false
+        },
         items: [{
             name: {
                 type: String,
@@ -30,7 +42,8 @@ const orderSchema = mongoose.Schema({
             quantity: {
                 type: Number,
                 required: true,
-                min: 1
+                min: 1,
+                max: 2
             },
             unitPrice: {
                 type: Number,

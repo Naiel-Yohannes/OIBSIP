@@ -8,6 +8,7 @@ const loginRouter = require('./controllers/loginRoute')
 const userRouter = require('./controllers/userRoute')
 const orderRouter = require('./controllers/orderRoute')
 const inventoryRouter = require('./controllers/inventoryRoute')
+const pizzaRouter = require('./controllers/pizzaRoute')
 
 const app = express()
 
@@ -24,6 +25,7 @@ app.use('/api/user', userRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/order', orderRouter)
 app.use('/api/inventory', inventoryRouter)
+app.use('/api/pizza', pizzaRouter)
 
 app.use(errorHandler)
 
