@@ -21,6 +21,16 @@ const getOrderById = async (id) => {
     }
 }
 
+const cunstomOrder = async (orderData) => {
+    try {
+        const response = await api.post('/order/custom', orderData)
+        return response.data
+    } catch (error) {
+        toast.error('Error fetching order data: ' + (error.response?.data?.error || error.message))
+        throw error
+    }
+}
+
 const createOrder = async (orderData) => {
     try {
         const response = await api.post('/order', orderData)
@@ -43,4 +53,4 @@ const updateOrder = async (id, orderData) => {
     }
 }
 
-export { getOrders, getOrderById, createOrder, updateOrder }
+export { getOrders, getOrderById, cunstomOrder, createOrder, updateOrder }
