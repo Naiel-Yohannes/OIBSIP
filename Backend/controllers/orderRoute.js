@@ -70,24 +70,28 @@ orderRouter.post('/custom', userExtractor, async (req, res, next) => {
 
         const {pizzaId, ingredients} = req.body
 
-        if(!pizzaId) {
-            return res.status(400).json({error: 'pizzaId is required for custom orders'})
-        }
-
-        const pizza = await Pizza.findById(pizzaId)
-        if(!pizza) {
-            return res.status(404).json({error: 'Pizza not found'})
-        }
-
         let selectedIngredients = []
+        let pizza = null
 
-        if (Array.isArray(ingredients) && ingredients.length > 0) {
-            selectedIngredients = ingredients
+        if (pizzaId) {
+            pizza = await Pizza.findById(pizzaId)
+            if(!pizza) {
+                return res.status(404).json({error: 'Pizza not found'})
+            }
+
+            if (Array.isArray(ingredients) && ingredients.length > 0) {
+                selectedIngredients = ingredients
+            } else {
+                selectedIngredients = pizza.ingredients.map((ing) => ({
+                    name: ing.name,
+                    quantity: ing.quantity
+                }))
+            }
         } else {
-            selectedIngredients = pizza.ingredients.map((ing) => ({
-                name: ing.name,
-                quantity: ing.quantity
-            }))
+            if(!Array.isArray(ingredients) || ingredients.length === 0) {
+                return res.status(400).json({error: 'Ingredients must be a non empty array'})
+            }
+            selectedIngredients = ingredients
         }
 
         const generatedOrderId = () => {
