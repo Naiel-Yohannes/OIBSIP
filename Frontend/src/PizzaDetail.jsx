@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getPizzaById } from './services/pizza'
 import { getAvailableIngredients } from './services/inventory'
+import { cunstomOrder } from './services/order'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 const PizzaDetail = () => {
   const {id} = useParams()
@@ -10,6 +12,8 @@ const PizzaDetail = () => {
   const [ingredients, setIngredients] = useState([])
   const [loading, setLoading] = useState(true)
   const [availableIngredients, setAvailableIngredients] = useState([])
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getPizza = async () => {
@@ -60,6 +64,17 @@ const PizzaDetail = () => {
     }, 0)
   }
 
+  const handleOrder = async () => {
+    try{
+      await cunstomOrder({pizzaId: pizza._id, ingredients})
+      toast.success('Order placed successfully!')
+      navigate('/dashboard')
+    } catch(error){
+      toast.error('Failed to place order: ' + error.message)
+    }
+  }
+
+
   if(loading) return <div>Loading...</div>
   
   return (
@@ -91,6 +106,8 @@ const PizzaDetail = () => {
                 ))}
             </ul>
           </div>
+          <button onClick={() => navigate('/dashboard')}>Cancel</button>
+          <button onClick={() => handleOrder()}>Order</button>
         </div>
       ) : (
         <p>Pizza not found</p>
