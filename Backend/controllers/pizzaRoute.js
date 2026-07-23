@@ -17,6 +17,19 @@ pizzaRouter.get('/', async (req, res, next) => {
   }
 })
 
+pizzaRouter.get('/:id', async (req, res, next) => {
+  try {
+    const pizza = await Pizza.findById(req.params.id)
+    if (!pizza) {
+      return res.status(404).json({error: 'Pizza not found'})
+    }
+    res.json(pizza)
+  } catch (err) {
+    error(err)
+    next(err)
+  }
+})
+
 pizzaRouter.post('/', userExtractor, async (req, res, next) => {
   try {
     if (req.user.role !== 'admin') {

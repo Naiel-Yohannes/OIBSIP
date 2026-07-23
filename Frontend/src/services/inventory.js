@@ -11,6 +11,16 @@ const getInventory = async () => {
     }
 }
 
+const getAvailableIngredients = async () => {
+    try {
+        const response = await api.get('/inventory/available')
+        return response.data
+    } catch (error) {
+        toast.error('Error fetching available ingredients: ' + (error.response?.data?.error || error.message))
+        throw error
+    }
+}
+
 const createItem = async (itemData) => {
     try {
         const response = await api.post('/inventory', itemData)
@@ -33,4 +43,4 @@ const updateItem = async (id, itemData) => {
     }
 }
 
-export { getInventory, createItem, updateItem }
+export { getInventory, getAvailableIngredients, createItem, updateItem }

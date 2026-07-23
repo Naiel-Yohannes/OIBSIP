@@ -23,6 +23,16 @@ inventoryRouter.get('/', userExtractor, async (req, res, next) => {
     }
 })
 
+inventoryRouter.get('/available', async (req, res, next) => {
+    try {
+        const availableItems = await Inventory.find({ quantity: { $gt: 0 } })
+        res.json(availableItems)
+    } catch(err) {
+        error(err)
+        next(err)
+    }
+})
+
 inventoryRouter.post('/', userExtractor, async (req, res, next) => {
     try{
         const {item, quantity, price} = req.body

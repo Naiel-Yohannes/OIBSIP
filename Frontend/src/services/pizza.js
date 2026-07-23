@@ -11,6 +11,16 @@ const getPizzas = async () => {
   }
 }
 
+const getPizzaById = async (id) => {
+  try {
+    const response = await api.get(`/pizza/${id}`)
+    return response.data
+  } catch(error){
+    toast.error('Error fetching pizza data: ' + (error.response?.data?.error || error.message))
+    throw error
+  }
+}
+
 const createPizza = async (pizzaData) => {
   try {
     const response = await api.post('/pizza', pizzaData)
@@ -44,5 +54,5 @@ const deletePizza = async (id) => {
   }
 }
 
-export { getPizzas, createPizza, updatePizza, deletePizza }
+export { getPizzas, getPizzaById, createPizza, updatePizza, deletePizza }
 

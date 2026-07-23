@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import { getPizzas } from './services/pizza'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 const PizzaList = () => {
   const [pizzas, setPizzas] = useState([])
   const [loading, setLoading] = useState(true)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchPizzas = async () => {
@@ -19,7 +22,7 @@ const PizzaList = () => {
     }
 
     fetchPizzas()
-  })
+  }, [])
 
   if (loading) {
     return <div>Loading pizzas...</div>
@@ -36,16 +39,8 @@ const PizzaList = () => {
             <div key={pizza.id}>
               <img src={pizza.imageUrl} alt={pizza.name} />
               <h3>{pizza.name}</h3>
-              <p>{pizza.description}</p>
               <p><strong>Price: ${pizza.price}</strong></p>
-              <div>
-                <strong>Ingredients:</strong>
-                <ul>
-                  {pizza.ingredients.map((ing, index) => (
-                    <li key={index}>{ing.name} (x{ing.quantity})</li>
-                  ))}
-                </ul>
-              </div>
+              <button onClick={() => navigate(`/pizza/${pizza.id}`)}>Customize</button>
             </div>
           ))}
         </div>
